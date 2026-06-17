@@ -77,6 +77,40 @@ const InquiryForm = () => {
         ...formData,
         submittedAt: new Date().toISOString()
       }));
+
+      // Map keys to human readable labels
+      const eventTypeLabels = {
+        wedding: "Wedding & Reception",
+        engagement: "Engagement Ceremony",
+        sangeet: "Sangeet / Mehendi Night",
+        birthday: "Birthday Celebration",
+        corporate: "Corporate Seminar / Expo",
+        cultural: "Cultural Gathering",
+        other: "Other Celebration"
+      };
+
+      const guestCountLabels = {
+        'under-200': "Under 200 Guests",
+        '200-500': "200 to 500 Guests",
+        '500-800': "500 to 800 Guests",
+        '800-1200': "800 to 1,200 Guests",
+        'above-1200': "More than 1,200 Guests"
+      };
+
+      // Format WhatsApp message text
+      const messageText = `*New Event Inquiry - Pavani Gardens*
+
+*Name:* ${formData.name}
+*Phone:* ${formData.phone}
+*Email:* ${formData.email}
+*Event Type:* ${eventTypeLabels[formData.eventType] || formData.eventType}
+*Event Date:* ${formData.eventDate}
+*Estimated Guests:* ${guestCountLabels[formData.guestCount] || formData.guestCount}
+*Message/Special Requirements:* ${formData.message || 'None'}`;
+
+      // Open WhatsApp chat prefilled with inquiry details
+      const waUrl = `https://wa.me/919440207366?text=${encodeURIComponent(messageText)}`;
+      window.open(waUrl, '_blank');
     }, 1500);
   };
 
